@@ -62,6 +62,7 @@ export interface Settings {
         defines: string[];
         undefines: string[];
         language: "c" | "c++";
+        includeWorkspace: boolean;
 
         flexelint: {
             enable: boolean;
@@ -86,6 +87,7 @@ export interface Settings {
             suppressions: string[];
             language: "c" | "c++" | null;
             severityLevels: CppCheckSeverityMaps;
+            includeWorkspace: boolean;
         }
         clang: {
             enable: boolean;
@@ -111,6 +113,7 @@ export interface Settings {
             blocks: boolean;
             includes: string[] | null;
             standardLibs: string[] | null;
+            includeWorkspace: boolean;
         }
     };
 }

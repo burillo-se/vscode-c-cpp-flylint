@@ -29,6 +29,7 @@ export class Linter {
     protected workspaceRoot: string;
     protected enabled: boolean;
     protected active: boolean;
+    protected includeWorkspace: boolean;
     protected executable: string;
     protected configFile: string;
     protected requireConfig: boolean;
@@ -45,6 +46,7 @@ export class Linter {
         this.requireConfig = requireConfig;
         this.enabled = true;
         this.active = true;
+        this.includeWorkspace = false;
         this.language = settings['c-cpp-flylint'].language;
         this.standard = settings['c-cpp-flylint'].standard;
         this.defines = settings['c-cpp-flylint'].defines;
@@ -327,6 +329,10 @@ export class Linter {
         let params: string[] = [];
 
         if (paths) {
+            if (this.includeWorkspace) {
+                paths.push(this.workspaceRoot);
+                this.getAllSubFolders(this.workspaceRoot, paths);
+            }
             _.each(paths, (element: string) => {
                 let value = this.expandVariables(element);
                 if (value.error) {
@@ -339,6 +345,23 @@ export class Linter {
         }
 
         return params;
+    }
+
+    /*
+     * I'm a C programmer, so i don't know first thing about idiomatic
+     * Node.js code. I'm using a StackOverflow answer, and i'm expecting the
+     * reviewer to point me in the right direction if this code is shit.
+     * Please don't judge me.
+     * 
+     * https://stackoverflow.com/questions/41462606/get-all-files-recursively-in-directories-nodejs
+     */
+    protected getAllSubFolders = (baseFolder: string, folderList: string[] = []) => {
+        let folders: string[] = fs.readdirSync(baseFolder).filter(
+            file => fs.statSync(path.join(baseFolder, file)).isDirectory());
+        folders.forEach(folder => {
+            folderList.push(path.join(baseFolder, folder));
+            this.getAllSubFolders(path.join(baseFolder,folder), folderList);
+        });
     }
 
     protected expandedArgsFor(key: string, joined: boolean, values: string[] | null, defaults: string[] | null) {

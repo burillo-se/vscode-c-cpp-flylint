@@ -123,6 +123,11 @@
           "default": [],
           "description": "Paths to search for include files. They may be relative or absolute. Cascades to all analyzers unless overridden in one or more analyzers."
         },
+        "c-cpp-flylint.includeWorkspace": {
+          "type": "boolean",
+          "default": false,
+          "description": "Add all workspace subdirectories as includes paths. Cascades to all analyzers unless overridden in one or more analyzers."
+        },
         "c-cpp-flylint.clang.enable": {
           "type": "boolean",
           "default": true,
@@ -145,6 +150,11 @@
           ],
           "default": null,
           "description": "Paths to search for include files. They may be relative or absolute."
+        },
+        "c-cpp-flylint.clang.includeWorkspace": {
+          "type": "boolean",
+          "default": false,
+          "description": "Add all workspace subdirectories as includes paths."
         },
         "c-cpp-flylint.clang.standard": {
           "type": [
@@ -326,6 +336,11 @@
           ],
           "default": null,
           "description": "Paths to search for include files. They may be relative or absolute."
+        },
+        "c-cpp-flylint.cppcheck.includeWorkspace": {
+          "type": "boolean",
+          "default": false,
+          "description": "Add all workspace subdirectories as includes paths."
         },
         "c-cpp-flylint.cppcheck.platform": {
           "type": "string",
